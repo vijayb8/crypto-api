@@ -8,13 +8,14 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/crypto-api/pkg/platform/config"
-	bhttp "github.com/crypto-api/pkg/platform/http"
-	"github.com/crypto-api/pkg/platform/logger"
-	"github.com/crypto-api/pkg/pricing"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	log "github.com/sirupsen/logrus"
+	"github.com/vijayb8/crypto-api/pkg/ordering"
+	"github.com/vijayb8/crypto-api/pkg/platform/config"
+	bhttp "github.com/vijayb8/crypto-api/pkg/platform/http"
+	"github.com/vijayb8/crypto-api/pkg/platform/logger"
+	"github.com/vijayb8/crypto-api/pkg/pricing"
 )
 
 // Version to return for homepage
@@ -22,9 +23,10 @@ var Version = "unset"
 
 // App contains service configs and dependencies
 type App struct {
-	config        *config.Config
-	log           *log.Logger
-	pricingClient *pricing.Client
+	config         *config.Config
+	log            *log.Logger
+	pricingClient  *pricing.Client
+	orderingClient *ordering.Client
 }
 
 func main() {
@@ -43,9 +45,15 @@ func main() {
 		log.Fatalf("can't get connection to CoinMarket API: %s", err)
 	}
 
+	orderingClient, err := ordering.NewClient(cfg.CryptoCompare.URL, cfg.CryptoCompare.ApiKey)
+	if err != nil {
+		log.Fatalf("can't get connection to CoinMarket API: %s", err)
+	}
+
 	app := &App{
-		config:        cfg,
-		pricingClient: pricingClient,
+		config:         cfg,
+		pricingClient:  pricingClient,
+		orderingClient: orderingClient,
 	}
 
 	addr := fmt.Sprintf(":%v", cfg.Port)
@@ -86,7 +94,7 @@ func (a *App) getRouter() *chi.Mux {
 	r.Use(bhttp.CORSMiddleware())
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Get("/pricing", pricing.GetPricing(a.pricingClient, a.log))
+		r.Get("/pricing", ordering.GetTopList(a.orderingClient, a.log))
 	})
 
 	return r

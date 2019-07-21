@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/crypto-api/pkg/platform/errors"
 	log "github.com/sirupsen/logrus"
+	"github.com/vijayb8/crypto-api/pkg/platform/errors"
 )
 
 // Client represents http client

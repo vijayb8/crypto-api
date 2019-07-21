@@ -3,9 +3,9 @@ package pricing
 import (
 	"net/http"
 
-	"github.com/crypto-api/pkg/platform/errors"
-	"github.com/crypto-api/pkg/platform/web"
 	log "github.com/sirupsen/logrus"
+	"github.com/vijayb8/crypto-api/pkg/platform/errors"
+	"github.com/vijayb8/crypto-api/pkg/platform/web"
 )
 
 func GetPricing(client *Client, l *log.Logger) http.HandlerFunc {

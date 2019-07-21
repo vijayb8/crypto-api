@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/crypto-api/pkg/platform/errors"
-	bhttp "github.com/crypto-api/pkg/platform/http"
+	"github.com/vijayb8/crypto-api/pkg/platform/errors"
+	bhttp "github.com/vijayb8/crypto-api/pkg/platform/http"
 )
 
 // Client defines the values required to connect to coinmarket
