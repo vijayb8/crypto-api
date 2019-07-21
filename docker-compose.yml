@@ -1,0 +1,13 @@
+version: "3"
+services:
+
+  api:
+      build: .
+      restart: always
+      ports:
+        - 443:443
+      environment:
+        PORT: 443
+
+      volumes:
+        - ./:/go/src/github.com/vijayb8/crypto-api
