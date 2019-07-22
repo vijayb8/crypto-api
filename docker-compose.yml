@@ -10,3 +10,8 @@ services:
         PORT: 443
       volumes:
         - ./:/go/src/github.com/vijayb8/crypto-api
+      networks:
+        - cc-be-network
+
+networks:
+  cc-be-network:

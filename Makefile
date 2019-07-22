@@ -10,6 +10,10 @@ LDFLAGS := -ldflags "-X main.Version=`git rev-parse HEAD`"
 all: help
 
 build:
+	go get "github.com/go-chi/chi"
+	go get "github.com/go-chi/cors"
+	go get "github.com/kelseyhightower/envconfig"
+	go get "github.com/sirupsen/logrus"
 	go build -o ${BUILD_DIR}/${PROJECT_NAME} ${LDFLAGS} ${PKG}
 	
 dev-up: ## Run app in local environment
