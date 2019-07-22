@@ -39,7 +39,6 @@ func (c *Client) ValidateResponse(res *http.Response, err error, op string) ([]b
 			c.logger.Error(err)
 		}
 	}()
-
 	return ioutil.ReadAll(res.Body)
 }
 
@@ -52,5 +51,8 @@ func (c *Client) Get(url, op string) ([]byte, error) {
 // Do sends an HTTP GET request and returns an HTTP response
 func (c *Client) Do(req *http.Request, op string) ([]byte, error) {
 	res, err := c.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	return c.ValidateResponse(res, err, op)
 }

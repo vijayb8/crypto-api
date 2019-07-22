@@ -8,8 +8,9 @@ WORKDIR /go/src/github.com/vijayb8/crypto-api
 COPY . ./
 RUN make build
 
-FROM alpine:3.8
-COPY --from=builder /go/src/github.com/vijayb8/crypto-api /
-ENV PORT_HTTPS=443
+FROM alpine
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+COPY --from=builder /go/src/github.com/vijayb8/crypto-api/build/crypto-api /
+ENV PORT_HTTPS=8080
 EXPOSE ${PORT_HTTPS}  
-ENTRYPOINT ["build/crypto-api"]
+ENTRYPOINT ["/crypto-api"]

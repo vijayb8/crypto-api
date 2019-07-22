@@ -2,6 +2,7 @@ package pricing
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -24,10 +25,10 @@ func NewClient(url string, api_key string) (*Client, error) {
 }
 
 func (client *Client) ListPrices(queryVal *PricingReq) (*PricingResp, error) {
-
 	httpClient := &bhttp.Client{}
 	req, err := http.NewRequest("GET", client.URL, nil)
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 
