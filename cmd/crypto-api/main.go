@@ -23,10 +23,10 @@ var Version = "unset"
 
 // App contains service configs and dependencies
 type App struct {
-	config         *config.Config
-	log            *log.Logger
-	pricingService *pricing.Service
-	orderingClient *ordering.Client
+	config          *config.Config
+	log             *log.Logger
+	pricingService  *pricing.Service
+	orderingService *ordering.Service
 }
 
 func main() {
@@ -45,16 +45,16 @@ func main() {
 		log.Fatalf("can't get connection to CoinMarket API: %s", err)
 	}
 
-	orderingClient, err := ordering.NewClient(cfg.CryptoCompare.URL, cfg.CryptoCompare.ApiKey)
+	orderingService, err := ordering.NewService(cfg.CryptoCompare.URL, cfg.CryptoCompare.ApiKey, pricingService)
 	if err != nil {
 		log.Fatalf("can't get connection to CoinMarket API: %s", err)
 	}
 
 	app := &App{
-		config:         cfg,
-		pricingService: pricingService,
-		orderingClient: orderingClient,
-		log:            log,
+		config:          cfg,
+		pricingService:  pricingService,
+		orderingService: orderingService,
+		log:             log,
 	}
 
 	addr := fmt.Sprintf(":%v", cfg.Port)
@@ -95,7 +95,7 @@ func (a *App) getRouter() *chi.Mux {
 	r.Use(bhttp.CORSMiddleware())
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Get("/ordering", ordering.GetTopList(a.orderingClient, a.pricingService, a.log))
+		r.Get("/ordering", ordering.GetTopList(a.orderingService, a.pricingService, a.log))
 		r.Get("/pricing", pricing.GetPricing(a.pricingService, a.log))
 	})
 

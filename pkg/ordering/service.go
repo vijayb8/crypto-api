@@ -15,7 +15,7 @@ type pricingGetter interface {
 }
 
 // Client defines the values required to connect to coinmarket
-type Client struct {
+type Service struct {
 	URL            string
 	APIKey         string
 	PricingService pricingGetter
@@ -26,19 +26,19 @@ type PriceInfo struct {
 	Id     int
 }
 
-// NewClient returns new service
-func NewClient(url string, api_key string, pricingService *pricing.Service) (*Client, error) {
-	return &Client{
+// NewService returns new service
+func NewService(url string, api_key string, pricingService *pricing.Service) (*Service, error) {
+	return &Service{
 		URL:            url,
 		APIKey:         api_key,
 		PricingService: pricingService,
 	}, nil
 }
 
-func (client *Client) GetTopList(queryVal *OrderReq, p2Service *pricing.Service) (*Response, error) {
+func (s *Service) GetTopList(queryVal *OrderReq, p2Service *pricing.Service) (*Response, error) {
 
 	httpClient := &bhttp.Client{}
-	req, err := http.NewRequest("GET", client.URL, nil)
+	req, err := http.NewRequest("GET", s.URL, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -48,12 +48,12 @@ func (client *Client) GetTopList(queryVal *OrderReq, p2Service *pricing.Service)
 	q.Add("convert", queryVal.Tysm)
 
 	req.Header.Set("Accepts", "application/json")
-	req.Header.Add("authorization", "ApiKey "+client.APIKey)
+	req.Header.Add("authorization", "ApiKey "+s.APIKey)
 	req.URL.RawQuery = q.Encode()
 
 	apiResp, err := httpClient.Do(req, "CryptoCompare API")
 
-	pricingResp, err := client.PricingService.ListPrices(&pricing.PricingReq{
+	pricingResp, err := s.PricingService.ListPrices(&pricing.PricingReq{
 		Limit:   queryVal.Limit,
 		Start:   "1",
 		Convert: "USD",

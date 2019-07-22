@@ -9,10 +9,10 @@ import (
 	pricing "github.com/vijayb8/crypto-api/pkg/pricing"
 )
 
-func GetTopList(client *Client, p2Service *pricing.Service, l *log.Logger) http.HandlerFunc {
+func GetTopList(s *Service, p2Service *pricing.Service, l *log.Logger) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		limit := r.URL.Query().Get("limit")
-		topList, err := client.GetTopList(&OrderReq{
+		topList, err := s.GetTopList(&OrderReq{
 			Limit: limit,
 			Tysm:  "USD",
 		}, p2Service)
