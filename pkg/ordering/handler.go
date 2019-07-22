@@ -11,7 +11,7 @@ import (
 func GetTopList(client *Client, l *log.Logger) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		limit := r.URL.Query().Get("limit")
-		priceList, err := client.GetTopList(&OrderReq{
+		topList, err := client.GetTopList(&OrderReq{
 			Limit: limit,
 			Tysm:  "USD",
 		})
@@ -21,6 +21,6 @@ func GetTopList(client *Client, l *log.Logger) http.HandlerFunc {
 			web.WriteErrorResponse(w, err)
 			return
 		}
-		web.WriteSuccessResponse(w, http.StatusOK, priceList)
+		web.WriteSuccessResponse(w, http.StatusOK, topList)
 	})
 }

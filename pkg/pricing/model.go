@@ -9,17 +9,17 @@ type PricingReq struct {
 
 // PricingResp is resp from coinmarket
 type PricingResp struct {
-	Data []coindata `json:"data"`
+	Data []Coindata `json:"data"`
 }
 
-type coindata struct {
+type Coindata struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"`
 	Symbol string `json:"symbol"`
-	Quote  quote  `json:"quote"`
+	Quote  Quote1 `json:"quote"`
 }
 
-type quote struct {
+type Quote1 struct {
 	Usd USD `json:"USD"`
 }
 

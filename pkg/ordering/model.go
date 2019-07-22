@@ -6,6 +6,16 @@ type OrderReq struct {
 	Tysm  string `json:"tysm"`
 }
 
+type Response struct {
+	CoinData []CoinData `json:"coin_data"`
+}
+
+type CoinData struct {
+	ID    string  `json:"Id"`
+	Name  string  `json:"Name"`
+	Price float64 `json:"price"`
+}
+
 // OrderResp is resp json to cryptocompare
 type OrderResp struct {
 	Data []DataInfo `json:"Data"`

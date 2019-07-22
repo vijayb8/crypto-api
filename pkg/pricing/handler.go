@@ -19,6 +19,7 @@ func GetPricing(client *Client, l *log.Logger) http.HandlerFunc {
 		})
 		if err != nil {
 			err = errors.Wrap(err, "can't get price list")
+			l.Error(err)
 			web.WriteErrorResponse(w, err)
 			return
 		}

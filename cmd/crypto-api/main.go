@@ -54,6 +54,7 @@ func main() {
 		config:         cfg,
 		pricingClient:  pricingClient,
 		orderingClient: orderingClient,
+		log:            log,
 	}
 
 	addr := fmt.Sprintf(":%v", cfg.Port)
