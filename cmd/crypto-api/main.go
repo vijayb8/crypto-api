@@ -96,7 +96,6 @@ func (a *App) getRouter() *chi.Mux {
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Get("/ordering", ordering.GetTopList(a.orderingService, a.pricingService, a.log))
-		r.Get("/pricing", pricing.GetPricing(a.pricingService, a.log))
 	})
 
 	return r

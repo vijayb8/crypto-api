@@ -45,13 +45,16 @@ func (s *Service) GetTopList(queryVal *OrderReq, p2Service *pricing.Service) (*R
 
 	q := url.Values{}
 	q.Add("limit", queryVal.Limit)
-	q.Add("convert", queryVal.Tysm)
+	q.Add("tsym", queryVal.Tysm)
 
 	req.Header.Set("Accepts", "application/json")
 	req.Header.Add("authorization", "ApiKey "+s.APIKey)
 	req.URL.RawQuery = q.Encode()
 
 	apiResp, err := httpClient.Do(req, "CryptoCompare API")
+	if err != nil {
+		return nil, err
+	}
 
 	pricingResp, err := s.PricingService.ListPrices(&pricing.PricingReq{
 		Limit:   queryVal.Limit,
@@ -79,11 +82,11 @@ func (s *Service) GetTopList(queryVal *OrderReq, p2Service *pricing.Service) (*R
 	var coins []CoinData
 	for i, v := range resp.Data {
 		for _, k := range pricingResp.ListPrice {
-			if k.Currency == v.Coin.ID {
+			if k.Currency == v.Coin.Name {
 				coins = append(coins, CoinData{
 					ID:    v.Coin.ID,
 					Name:  v.Coin.Name,
-					Rank:  i,
+					Rank:  i + 1,
 					Price: k.Price,
 				})
 			}

@@ -27,15 +27,6 @@ type CoinInfo struct {
 	Name string `json:"Name"`
 }
 
-type USD struct {
-	PRICE float64 `json:"PRICE"`
-}
-
-type RAW struct {
-	USDCur USD `json:"USD"`
-}
-
 type DataInfo struct {
 	Coin CoinInfo `json:"CoinInfo"`
-	Raw  RAW      `json:"RAW"`
 }
