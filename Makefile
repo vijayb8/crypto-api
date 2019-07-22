@@ -5,24 +5,14 @@ PKG_LIST := $(shell go list ${PROJECT}/... | grep -v /vendor/)
 BUILD_DIR := build
 LDFLAGS := -ldflags "-X main.Version=`git rev-parse HEAD`"
 
-.PHONY: all dep lint test build clean help
+.PHONY: all test build clean help
 
 all: help
 
-dep: ## Get the dependencies
-	dep version || go get -u github.com/golang/dep/cmd/dep # install dep if not exist
-	dep ensure
-
-build: dep ## Build the binary file
-	packr help || go get -u github.com/gobuffalo/packr/...  # install packr if not exist
-	packr
+build:
 	go build -o ${BUILD_DIR}/${PROJECT_NAME} ${LDFLAGS} ${PKG}
-	packr clean
-
-before-commit: lint test swagger ## Run checks and update swagger info
-
+	
 dev-up: ## Run app in local environment
-	# docker-compose up -d
 	docker-compose up --build api
 
 dev-down: ## Stop all app containers in local environment

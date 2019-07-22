@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/bewatec-berlin/connected-care-be/pkg/platform/errors"
+	"github.com/vijayb8/crypto-api/pkg/platform/errors"
 )
 
 // successResponse represents success response structure

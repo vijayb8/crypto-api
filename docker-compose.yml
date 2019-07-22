@@ -8,6 +8,5 @@ services:
         - 443:443
       environment:
         PORT: 443
-
       volumes:
         - ./:/go/src/github.com/vijayb8/crypto-api
