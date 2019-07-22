@@ -12,13 +12,13 @@ all: help
 build:
 	go build -o ${BUILD_DIR}/${PROJECT_NAME} ${LDFLAGS} ${PKG}
 	
-dev-up: ## Run app in local environment
+install: ## Run app in local environment
 	docker-compose up --build api
 
-dev-down: ## Stop all app containers in local environment
+stop: ## Stop all app containers in local environment
 	docker-compose down
 
-dev-clean: ## Stop running app in local environment and remove all images and volumes for it
+docker-clean: ## Stop running app in local environment and remove all images and volumes for it
 	docker-compose down --rmi local --volumes --remove-orphans
 
 clean: ## Remove generated files after build
