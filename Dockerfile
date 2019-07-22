@@ -9,7 +9,7 @@ COPY . ./
 RUN make build
 
 FROM alpine:3.8
-COPY --from=builder /go/src/github.com/vijayb8/crypto-api /
-ENV PORT_HTTPS=443
+COPY --from=builder /go/src/github.com/vijayb8/crypto-api/build/crypto-api /
+ENV PORT_HTTPS=8080
 EXPOSE ${PORT_HTTPS}  
 ENTRYPOINT ["build/crypto-api"]

@@ -94,7 +94,8 @@ func (a *App) getRouter() *chi.Mux {
 	r.Use(bhttp.CORSMiddleware())
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Get("/pricing", ordering.GetTopList(a.orderingClient, a.log))
+		r.Get("/ordering", ordering.GetTopList(a.orderingClient, a.log))
+		r.Get("/pricing", pricing.GetPricing(a.pricingClient, a.log))
 	})
 
 	return r
