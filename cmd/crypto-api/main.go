@@ -25,7 +25,7 @@ var Version = "unset"
 type App struct {
 	config         *config.Config
 	log            *log.Logger
-	pricingClient  *pricing.Client
+	pricingService *pricing.Service
 	orderingClient *ordering.Client
 }
 
@@ -40,7 +40,7 @@ func main() {
 		log.Fatalf("failed to create logger: %s", err)
 	}
 
-	pricingClient, err := pricing.NewClient(cfg.CoinMarket.URL, cfg.CoinMarket.ApiKey)
+	pricingService, err := pricing.NewService(cfg.CoinMarket.URL, cfg.CoinMarket.ApiKey)
 	if err != nil {
 		log.Fatalf("can't get connection to CoinMarket API: %s", err)
 	}
@@ -52,7 +52,7 @@ func main() {
 
 	app := &App{
 		config:         cfg,
-		pricingClient:  pricingClient,
+		pricingService: pricingService,
 		orderingClient: orderingClient,
 		log:            log,
 	}
@@ -95,8 +95,8 @@ func (a *App) getRouter() *chi.Mux {
 	r.Use(bhttp.CORSMiddleware())
 
 	r.Route("/v1", func(r chi.Router) {
-		r.Get("/ordering", ordering.GetTopList(a.orderingClient, a.log))
-		r.Get("/pricing", pricing.GetPricing(a.pricingClient, a.log))
+		r.Get("/ordering", ordering.GetTopList(a.orderingClient, a.pricingService, a.log))
+		r.Get("/pricing", pricing.GetPricing(a.pricingService, a.log))
 	})
 
 	return r

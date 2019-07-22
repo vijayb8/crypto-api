@@ -14,6 +14,7 @@ type CoinData struct {
 	ID    string  `json:"Id"`
 	Name  string  `json:"Name"`
 	Price float64 `json:"price"`
+	Rank  int     `json:"rank"`
 }
 
 // OrderResp is resp json to cryptocompare

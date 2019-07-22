@@ -8,11 +8,11 @@ import (
 	"github.com/vijayb8/crypto-api/pkg/platform/web"
 )
 
-func GetPricing(client *Client, l *log.Logger) http.HandlerFunc {
+func GetPricing(s *Service, l *log.Logger) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := r.URL.Query().Get("start")
 		limit := r.URL.Query().Get("limit")
-		priceList, err := client.ListPrices(&PricingReq{
+		priceList, err := s.GetPricing(&PricingReq{
 			Start:   start,
 			Limit:   limit,
 			Convert: "USD",

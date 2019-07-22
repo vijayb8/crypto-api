@@ -12,6 +12,15 @@ type PricingResp struct {
 	Data []Coindata `json:"data"`
 }
 
+type ListPrices struct {
+	ListPrice []PricingData
+}
+
+type PricingData struct {
+	Currency string
+	Price    float64
+}
+
 type Coindata struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"`
